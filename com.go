@@ -39,15 +39,15 @@ func Mark() {
 		line := scanner.Text()
 		index, err := strconv.Atoi(line)
 		if err != nil {
-			fmt.Println("incorrect input:", err)
+			fmt.Println("incorrect input")
 			continue
 		}
 
 		if err := scanner.Err(); err != nil {
-			fmt.Fprintln(os.Stderr, "Error:", err)
+			fmt.Fprintln(os.Stderr, "Error")
 		}
 		if err := MarkTask(index); err != nil {
-			fmt.Printf("Error: %s\n", err)
+			fmt.Printf("Error\n")
 			return
 		}
 		fmt.Printf("You task number: %d is marked\n", index)
@@ -63,15 +63,15 @@ func Del() {
 		line := scanner.Text()
 		index, err := strconv.Atoi(line)
 		if err != nil {
-			fmt.Println("incorrect input:", err)
+			fmt.Println("incorrect input")
 			continue
 		}
 
 		if err := scanner.Err(); err != nil {
-			fmt.Fprintln(os.Stderr, "Error:", err)
+			fmt.Fprintln(os.Stderr, "Error")
 		}
 		if err := DeleteTask(index); err != nil {
-			fmt.Printf("Error: %s\n", err)
+			fmt.Printf("Error\n")
 			return
 		}
 		fmt.Printf("You task number: %d deleted\n", index)

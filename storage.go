@@ -50,11 +50,11 @@ func SaveFile() {
 	}
 	defer file.Close()
 	for _, task := range Tasks {
-		check := "☐"
+		check := 0
 		if task.mark {
-			check = "☑"
+			check = 1
 		}
-		line := fmt.Sprintf("%s %s\t%t\n", check, task.name, task.mark)
+		line := fmt.Sprintf("%d %s\n", check, task.name)
 		file.WriteString(line)
 	}
 	fmt.Println("Tasks saves")
@@ -78,26 +78,18 @@ func LoadFile(filen string) ([]Task, error) {
 		if line == "" {
 			continue
 		}
-		parts := strings.Fields(line)
-		if len(parts) < 3 {
-			continue
-		}
-		statusStr := parts[len(parts)-1]
-		nameParts := parts[1 : len(parts)-1]
-		name := strings.Join(nameParts, " ")
 
-		var mark bool
-		switch strings.ToLower(statusStr) {
-		case "true":
-			mark = true
-		case "false":
-			mark = false
-		default:
+		if len(line) < 3 {
+			return nil, fmt.Errorf("Invalid file")
 		}
-		tasks = append(tasks, Task{
-			name: name,
-			mark: mark,
-		})
+
+		var task Task
+		if line[0] == '0' {
+			task = Task{mark: false, name: line[2 : len(line)-1]}
+		} else {
+			task = Task{mark: true, name: line[2 : len(line)-1]}
+		}
+		tasks = append(tasks, task)
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, err
